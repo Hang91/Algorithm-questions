@@ -7,6 +7,8 @@ Solution and discussion of algorithm questions
 [Container With Most Water](#chapter-1-question-1)
 
 [3Sum Closest](#chapter-1-question-2)
+
+[4Sum](#chapter-1-question-3)
 ### Container With Most Water<a id="chapter-1-question-1"></a>
 #### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -98,4 +100,56 @@ Since the array is sorted, if the sum is greater than target, we cannot move poi
         return result;
     }
 ```
+### 4Sum<a id="chapter-1-question3"></a>
+#### Problem Description:
+Given an array nums of n integers and an integer target, are there elements a, b, c, and d in nums such that a + b + c + d = target? Find all unique quadruplets in the array which gives the sum of target.
 
+Note:
+
+The solution set must not contain duplicate quadruplets.
+
+#### Discussion:
+This question is similar to [3Sum Closest](#chapter-1-question-3)
+Sort the array. And use two pointers, pointer1, pointer2, to iterate the array, and use two pointers, left, right, that start from pointer2 and a.length - 1 to make the sum move around target.
+
+Time complexity is O(n^3). Brute force solution's time complexity is O(n^4);
+
+There is a requirement should be highly noticed. "The solution set must not contain duplicate quadruplets." Therefore, in iterations of pointer1, pointer2 and left, the number of pointer must not equal to the number of pointer - 1, except the first one. 
+#### Solution:
+```
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (i != 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            for (int j = i + 1; j < nums.length; j++) {
+                if (j != i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                int left = j + 1, right = nums.length - 1;
+                while (left < right) {
+                    if (left != j + 1 && nums[left] == nums[left - 1]) {
+                        left ++;
+                        continue;
+                    } 
+                    int sum = nums[i] + nums[j] + nums[left] + nums[right];
+                    if (sum > target) {
+                        right --;
+                    } else if (sum < target) {
+                        left ++;
+                    } else {
+                        List<Integer> subResult = new ArrayList<>();
+                        subResult.add(nums[i]);
+                        subResult.add(nums[j]);
+                        subResult.add(nums[left]);
+                        subResult.add(nums[right]);
+                        result.add(subResult);
+                        left ++;
+                        right --;
+                    }
+                }
+            }
+        }
+        return result;
+```
