@@ -109,8 +109,8 @@ Note:
 The solution set must not contain duplicate quadruplets.
 
 #### Discussion:
-This question is similar to [3Sum Closest](#chapter-1-question-3)
-Sort the array. And use two pointers, pointer1, pointer2, to iterate the array, and use two pointers, left, right, that start from pointer2 and a.length - 1 to make the sum move around target.
+This question is similar to [3Sum Closest](#chapter-1-question-2). 
+Sort the array. And use two pointers, pointer1, pointer2, to iterate the array, and use two pointers, left, right, which start from pointer2 and a.length - 1 to make the sum move around target.
 
 Time complexity is O(n^3). Brute force solution's time complexity is O(n^4);
 
