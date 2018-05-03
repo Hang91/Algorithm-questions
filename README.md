@@ -45,7 +45,7 @@ I don't have a mathmatical provement. If anybody get one, please tell me.
             } else {
                 int current_height = height[right];
                 while (left < right && current_height >= height[right]) {
-                    right ++;
+                    right --;
                 }
             }
         }
