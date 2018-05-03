@@ -6,7 +6,26 @@ Solution and discussion of algorithm questions
 ## Array<a id="chapter-1"></a>
 [Container With Most Water](#chapter-1-question-1)
 ### Container With Most Water<a id="chapter-1-question-1"></a>
-Problme Description:
+#### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
 
 Note: You may not slant the container and n is at least 2.
+#### Discussion:
+At first glance, we can get a brute force solution in which we will iterate all pairs of lines and keep updating the the maximum volume of water. Apparently, this solution costs O(n^2) time.
+
+Can we do better?
+
+Think about this. Suppose we pick the most left line and the most right line at the beginning, the volume of water is Min(height_left, height_right) * (right - left), which depeneds on the length between two lines and the minimum height of two lines. Next, we need to figure out how to pick next pair of lines to make sure they can contain more water. Because we have picked the most left and most right line, (right - left) is maximum. We need to move the line with lower height to the middle to get a bigger volume. 
+
++ Step1, select 0 as left and a.length - 1 as right 
++ Step2, calcute volume
++ Step3, update maximum volume if the result of Step2 is greater
++ Step4, move the line with lower height to the other line until we find a line with height higher than the lower line.
++ Step5, repeat Step2 to Step4 until left = right
+
+Provement:
+In the solution, we tried every possible pair of lines whose volume might be greater than last pair.
+I don't have a mathmatical provement. If anybody get one, please tell me.
+
+#### Solution:
+
