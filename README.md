@@ -23,6 +23,8 @@ Think about this. Suppose we select the most left line and the most right line a
 + Step4, move the line with lower height to the other line until we find a line with height higher than the lower line.
 + Step5, repeat Step2 to Step4 until left = right
 
+This solution only costs O(n) time, since left move from 0 to right and right move from a.length - 1 to left; 
+
 Provement:
 In the solution, we tried every possible pair of lines whose area might be greater than last pair.
 I don't have a mathmatical provement. If anybody get one, please tell me.
