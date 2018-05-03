@@ -54,7 +54,7 @@ I don't have a mathmatical provement. If anybody get one, please tell me.
         return result;
     }
 ```
-### 3Sum Closest <a id="chapter-1-question-2"></a>
+### 3Sum Closest<a id="chapter-1-question-2"></a>
 #### Problme Description:
 Given an array nums of n integers and an integer target, find three integers in nums such that the sum is closest to target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
 
