@@ -1,17 +1,8 @@
 # Algorithm-questions
 Solution and discussion of algorithm questions
-# Category
-[Go to foo](#foo)
+# Category Table
+[Array] (#Array)
 
-
-
-
-
-
-
-
-
-
-
-
-# Foo
+## Array
+[Container With Most Water] (#Container With Most Water)
+### Container With Most Water
