@@ -114,9 +114,10 @@ Sort the array. And use two pointers, pointer1, pointer2, to iterate the array, 
 
 Time complexity is O(n^3). Brute force solution's time complexity is O(n^4);
 
-There is a requirement should be highly noticed. "The solution set must not contain duplicate quadruplets." Therefore, in iterations of pointer1, pointer2 and left, the number of pointer must not equal to the number of pointer - 1, except the first one. 
+There is a requirement should be highly noticed. "The solution set must not contain duplicate quadruplets." Therefore, in iterations of pointer1, pointer2 and left, the number pointed by pointer must not equal to the number pointed by pointer - 1, except the first one. 
 #### Solution:
 ```
+    public List<List<Integer>> fourSum(int[] nums, int target) {
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
         for (int i = 0; i < nums.length; i++) {
@@ -152,4 +153,5 @@ There is a requirement should be highly noticed. "The solution set must not cont
             }
         }
         return result;
+    }
 ```
