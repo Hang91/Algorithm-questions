@@ -5,6 +5,7 @@ Solution and discussion of algorithm questions
 
 ## Array<a id="chapter-1"></a>
 [Container With Most Water](#chapter-1-question-1)
+[3Sum Closest](#chpter-1-question-2)
 ### Container With Most Water<a id="chapter-1-question-1"></a>
 #### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -52,3 +53,48 @@ I don't have a mathmatical provement. If anybody get one, please tell me.
         return result;
     }
 ```
+### 3Sum Closest id="chapter-1-question-2"></a>
+#### Problme Description:
+Given an array nums of n integers and an integer target, find three integers in nums such that the sum is closest to target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
+
+#### Discussion:
+Brute force solution is traverse all the groups of 3 numbers and find the closest one. The time complexity is O(n^3);
+
+Better solution?
+
+Sometimes, we can find more solution in a sorted array. So, we shuold try to sort the array first. 
+
+After soring, we will use three pointers. The pointer1 will traverse the array. The pointer2 start at pointer1 + 1 to avoid duplicated computation, the pointer3 start at index a.length - 1. Then we compare the sum of three pointed numbers with target. What should we do next if the sum is greater of less than the target?
+
+Since the array is sorted, if the sum is greater than target, we cannot move pointer2 to right to get a closer sum. Vice versa. Therefore, we should move pointer3 to left if sum is greater than target, and we shuold move pointer2 to right if sum is less than target. If sum is equal to target? Return the target!
+
+#### Solution:
+```
+    public int threeSumClosest(int[] nums, int target) {
+        if (nums == null || nums.length < 3) {
+            throw new NoSuchElementException();
+        }
+        Arrays.sort(nums);
+        int result = nums[0] + nums[1] + nums[2];
+        for (int i = 0; i < nums.length; i++) {
+            int left = i + 1;
+            int right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                int diff = Math.abs(sum - target);
+                if (diff < Math.abs(result - target)) {
+                    result = sum;
+                }
+                if (sum > target) {
+                    right --;
+                } else if (sum < target) {
+                    left ++;
+                } else {
+                    return target;
+                }
+            }
+        }
+        return result;
+    }
+```
+
