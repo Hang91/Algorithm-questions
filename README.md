@@ -9,6 +9,8 @@ Solution and discussion of algorithm questions
 [3Sum Closest](#chapter-1-question-2)
 
 [4Sum](#chapter-1-question-3)
+
+[Search Insert Position](#chapter-1-question-4)
 ### Container With Most Water<a id="chapter-1-question-1"></a>
 #### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -155,3 +157,16 @@ There is a requirement should be highly noticed. "The solution set must not cont
         return result;
     }
 ```
+### Search Insert Position<a id="chapter-1-question-4"></a>
+Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You may assume no duplicates in the array.
+#### Discussion
+Brute force solution is continuously traverse the array, until we find the target or the first number that is greater than target. Then return the position.
+
+The time complexity is O(n).
+
+Since the input array is sorted. So we can try to use binary search to get a better solution with time complexity O(logn). Now, I want to discuss the stop condition of binary search. Since if the target is not in the array, we need to find a index, where the num[
+
+#### Solution
+
