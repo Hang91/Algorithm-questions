@@ -220,4 +220,33 @@ Can we solve it in O(n) time and O(1) space?
 
 Bing!
 
-We can swap 
+We can continuelly swap nums[i] with nums[nums[i] - 1] until nums[i] = i + 1 and check if nums[i] = i + 1 from the begining of the array. Return the first one that is not equal.
+
+Consider about what will happen if the input includes duplicate number?
+
+For example, if the input is [1, 1]. When we check number at index 1, it is not equal to 2. Then we swap it with number at index 0. It is still 1. Then we come into a endless loop. So, we should add an additional stop condition to avoid this bug. Check if nums[nums[i] - 1] is equal to nums[i]. 
+
+In addition, if nums[i] < 0 or nums[i] > nums.length, then it can not be swap with other numbers.
+
+#### Solution:
+```
+    public int firstMissingPositive(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            while (nums[i] != i + 1 && nums[i] > 0 && nums[i] <= nums.length) {
+                if (nums[nums[i] - 1] == nums[i]) {
+                    break;
+                }
+                int temp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = temp;
+            }
+        }
+        
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return nums.length + 1;
+    }
+```
