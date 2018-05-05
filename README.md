@@ -11,6 +11,8 @@ Solution and discussion of algorithm questions
 [4Sum](#chapter-1-question-3)
 
 [Search Insert Position](#chapter-1-question-4)
+
+[Find Missing Positive](#chapter-1-question-5)
 ### Container With Most Water<a id="chapter-1-question-1"></a>
 #### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -158,6 +160,7 @@ There is a requirement should be highly noticed. "The solution set must not cont
     }
 ```
 ### Search Insert Position<a id="chapter-1-question-4"></a>
+#### Problem Description:
 Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
 
 You may assume no duplicates in the array.
@@ -166,7 +169,55 @@ Brute force solution is continuously traverse the array, until we find the targe
 
 The time complexity is O(n).
 
-Since the input array is sorted. So we can try to use binary search to get a better solution with time complexity O(logn). Now, I want to discuss the stop condition of binary search. Since if the target is not in the array, we need to find a index, where the num[
+Since the input array is sorted. So we can try to use binary search to get a better solution with time complexity O(logn). Now, I want to discuss the stop condition of binary search. 
+
+If the target is not in the array, we need to find a index, where the num[index] is less than target and num[index + 1] is greater than target. So, I want to use two pointers left and right. left start from 0, right start from a.length - 1. The stop condition of binary search is left < right - 1. If we can find the target before the stop condition, we will return the index of target in the while loop. If we cannot find the target before stop condition, we should check if a[left] and a[right] is equal to target. If they are not target, we will check which one is the first num that greater than the target and return its index.
 
 #### Solution
+```
+    public int searchInsert(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while (left < right - 1) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        if (nums[left] == target) {
+            return left;
+        }
+        if (nums[right] == target) {
+            return right;
+        }
+        if (nums[left] > target) {
+            return left;
+        }
+        if (nums[right] > target) {
+            return right;
+        }
+        return right + 1;
+    }
+```
+### Find Missing Positve<a id="chapter-1-question-5"></a>
+#### Problem Description:
+Given an unsorted integer array, find the smallest missing positive integer.
+Input: [1,2,0]
+Output: 3
+Input: [7,8,9,11,12]
+Output: 1
+#### Discussion:
+Brute force solution will cost O(n^2) time. 
 
+Sort the array and check from the start of the array will cost O(nlogn) time. 
+
+Put all the numbers that are greater than 0 into a HaseSet and keep count how many numbers that are greater than 0. Then check if numbers from 1 to the count result are in the HashSet. Return the first number that is not in the HashSet. If all the numbers are in the hashSet, return the count result + 1. This solution cost O(n) time and O(n) space.
+
+Can we solve it in O(n) time and O(1) space?
+
+Bing!
+
+We can swap 
