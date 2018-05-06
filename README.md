@@ -13,6 +13,8 @@ Solution and discussion of algorithm questions
 [Search Insert Position](#chapter-1-question-4)
 
 [Find Missing Positive](#chapter-1-question-5)
+
+[Jump Game](#chapter-1-question-6)
 ### Container With Most Water<a id="chapter-1-question-1"></a>
 #### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -250,3 +252,49 @@ In addition, if nums[i] < 0 or nums[i] > nums.length, then it can not be swap wi
         return nums.length + 1;
     }
 ```
+
+### Jump Game<a id="chapter-1-question-6"></a>
+#### Problem Description
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+Each element in the array represents your maximum jump length at that position.
+
+Determine if you are able to reach the last index.
+#### Discussion
+An intuitive solution is that build a boolean array, and set the position to true accroding to the number stored in the input array. If the value in the boolean array is false, then stop setting, since this cell in the array cannot be reached.
+
+Time cost is O(n), space cost is O(n).
+
+#### Solution
+```
+    public boolean canJump(int[] nums) {
+        if (nums.length == 0) {
+            return true;
+        }
+        int len = nums.length;
+        boolean[] arr = new boolean[len];
+        int farthest = 0;
+        arr[0] = true;
+        for (int i = 0; i < len; i++) {
+            if (!arr[i]) {
+                break;
+            }
+            for (int j = farthest + 1; j < arr.length && j <= i + nums[i]; j++) {
+                arr[j] = true;
+            }
+            farthest = Math.max(farthest, i + nums[i]);
+        }
+        return arr[len - 1];
+    }
+```
+### Jump Game II
+#### Problem Description
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Your goal is to reach the last index in the minimum number of jumps.
+
+You can assume that you can always reach the last index.
+#### Discussion
+In every step, we will update the 
+
