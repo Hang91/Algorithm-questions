@@ -15,6 +15,9 @@ Solution and discussion of algorithm questions
 [Find Missing Positive](#chapter-1-question-5)
 
 [Jump Game](#chapter-1-question-6)
+
+[Median of Two Sorted Array](#chapter-1-question-7)
+
 ### Container With Most Water<a id="chapter-1-question-1"></a>
 #### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -296,5 +299,91 @@ Your goal is to reach the last index in the minimum number of jumps.
 
 You can assume that you can always reach the last index.
 #### Discussion
-In every step, we will update the 
+I want to create a new array with same length of the input array and fill with the value of Integer.MAX_VALUE. Then, traverse the input array from 0. When I reach to an index, I can update cells from the index to index + number at the index. If the number in the new array of a updating cell is greater than number in the new array of the index + 1, it will be changed to the number + 1.
 
+The worst case time complexity is O(n^2).
+
+We can optimze the solution by keeping a farthest value that is the greatest index has been updated. If a left cell update a cell, and a right cell want to update the same cell, the left cell's value must be greater than the right cell, which is impossible. Because the left cell can be updated by the same cell which will update right cell and make them have the same value. The value on the left must be less than or equal to the value on the right.
+
+Therefore, we can check the index from the farthest to the index + number, then the time complexity will be O(n).
+
+#### Solution
+```
+    public int jump(int[] nums) {
+        int len = nums.length;
+        int[] table = new int[len];
+        Arrays.fill(table, Integer.MAX_VALUE);
+        table[0] = 0;
+        int farthest = 1;
+        for (int i = 0; i < len; i++) {
+            for (int j = farthest; j <= nums[i] + i && j < len; j++) {
+                if (table[j] > table[i] + 1) {
+                    table[j] = table[i] + 1;
+                } 
+            }
+            farthest = Math.max(farthest, i + nums[i]);
+        }
+        return table[len - 1];
+    }
+```
+### Median of Two Sorted Array<a id="chapter-1-question-7"></a>
+#### Problem Description
+There are two sorted arrays nums1 and nums2 of size m and n respectively.
+
+Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+
+#### Discussion
+A brute force idea is that merge two arrays into an array and get the median. The time complexity is O(n) and space complexity is O(n + m).
+
+The second solution is using two pointers. Move two pointers from the start of two array, move the pointer which is pointing the little number. Move pointers (m + n) / 2 - 1 times, then if the total length is even, the median is (nums[pointer1] + nums[pointer2]) / 2, if the total length is odd, the median is the greater number pointed by pointers. The time complexity is O(n).
+
+However, the requirement for time complexity is O(log (m + n)). Because two arraies are sorted, I can try to use binary search to solve the problem. 
+
+Since if the total length is even, I need to find the (m + n) / 2 th number and (m + n) / 2 + 1 th number. And if the total number is odd, I need to find the (m + n) / 2 + 1 th number. For exampe, if the total length is 5, I need to find 3rd number, if the total length is 6, I need to find the 3rd and 4th number.
+
+Then the question is change to find the Kth number in two sorted array. 
+
+Use binary search in finding the Kth number in two sorted array. 
+
+Recusively check the number at start1 + k / 2 and start2 + k / 2 in two arrays. If one number is less than or equal to the other, the kth number cannot be in the part of the array whose start + k / 2 number is less  and index is less than or equal to k / 2. Then try to find the k - k / 2 th number from start + k - k / 2 to end of one array whose k / 2 th number is less and start to end of the other array. Until k is 1, return the less number of array1[start1] and array2[start2].
+
++ intialize: start1 = 0, start2 = 0
++ step1: if (num1[start1 + k / 2] <= num2[start2 + k / 2]), start1 += k / 2, else start2 += k / 2.
++ step2: repeat step1 until k = 1.
++ step3: return the Min(num1[start1], num2[start2])
+
+Please notice that the greatest number of one array can be less than the median. Thus, it's necessary to check if the start index is less the length of the array. Besides, if k / 2 is greater than the length of one array, the k th number can not be in the start to start + k / 2 of the other array. Since even if all the numbers in the shorter array is less than the first number in the other array, the number at start + k / 2 of the longer array cannot be the k th number because there is not enough numbers before it. 
+
+#### Solution
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length, n = nums2.length;
+        int k = (m + n) / 2 + 1;
+        if ((m + n) % 2 == 0) {
+            return (getKth(nums1, nums2, 0, 0, k - 1) + getKth(nums1, nums2, 0, 0, k)) / 2.0;
+        }
+        return getKth(nums1, nums2, 0, 0, k);
+    }
+    
+    public int getKth(int[] nums1, int[] nums2, int start1, int start2, int k) {
+        if (k == 1) {
+            if (start1 >= nums1.length) {
+                return nums2[start2];
+            } else if (start2 >= nums2.length) {
+                return nums1[start1];
+            }
+            return Math.min(nums1[start1], nums2[start2]);
+        }
+        if (start1 + k / 2 > nums1.length) {
+            return getKth(nums1, nums2, start1, start2 + k / 2, k - k / 2);
+        }
+        if (start2 + k / 2 > nums2.length) {
+            return getKth(nums1, nums2, start1 + k / 2, start2, k - k / 2);
+        }
+        if (nums1[start1 + k / 2 - 1] <= nums2[start2 + k / 2 - 1]) {
+            return getKth(nums1, nums2, start1 + k / 2, start2, k - k / 2);
+        } else {
+            return getKth(nums1, nums2, start1, start2 + k / 2, k - k / 2);
+        }
+    }
+    
+    
