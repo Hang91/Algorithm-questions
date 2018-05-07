@@ -18,6 +18,8 @@ Solution and discussion of algorithm questions
 
 [Median of Two Sorted Array](#chapter-1-question-7)
 
+[Remove Duplicates from Sorted Array](#chapter-1-question-8)
+
 ### Container With Most Water<a id="chapter-1-question-1"></a>
 #### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -355,6 +357,7 @@ Recusively check the number at start1 + k / 2 and start2 + k / 2 in two arrays. 
 Please notice that the greatest number of one array can be less than the median. Thus, it's necessary to check if the start index is less the length of the array. Besides, if k / 2 is greater than the length of one array, the k th number can not be in the start to start + k / 2 of the other array. Since even if all the numbers in the shorter array is less than the first number in the other array, the number at start + k / 2 of the longer array cannot be the k th number because there is not enough numbers before it. 
 
 #### Solution
+```
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int m = nums1.length, n = nums2.length;
         int k = (m + n) / 2 + 1;
@@ -385,5 +388,32 @@ Please notice that the greatest number of one array can be less than the median.
             return getKth(nums1, nums2, start1, start2 + k / 2, k - k / 2);
         }
     }
-    
-    
+```
+ 
+### Remove Duplicates from Sorted Array<a id="chapter-1-question-8"></a>
+#### Problem Description
+ Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
+
+Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+
+#### Discussion
+Traverse the array, and keep a variable to store the last different value and a variable to store the numbers of differnet value. If current number is equal to the last different value, continue traversingr. If current number is not equal to the last different vale, update the last different vale to current number and the number of different value plus 1. 
+
+#### Solution
+```
+    public int removeDuplicates(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int lastDiff = nums[0];
+        int diffNums = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (lastDiff != nums[i]) {
+                lastDiff = nums[i];
+                nums[diffNums] = nums[i];
+                diffNums ++;
+            }
+        }
+        return diffNums;
+    }
+```
