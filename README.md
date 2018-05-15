@@ -20,6 +20,8 @@ Solution and discussion of algorithm questions
 
 [Remove Duplicates from Sorted Array](#chapter-1-question-8)
 
+[Remove Element](#chapter-1-question-9)
+
 ### Container With Most Water<a id="chapter-1-question-1"></a>
 #### Problme Description:
 Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.
@@ -417,3 +419,44 @@ Traverse the array, and keep a variable to store the last different value and a 
         return diffNums;
     }
 ```
+### Remove Element<a id="chapter-1-question-9"></a>
+#### Problem Description
+
+Given an array nums and a value val, remove all instances of that value in-place and return the new length.
+
+Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+
+The order of elements can be changed. It doesn't matter what you leave beyond the new length.
+#### Discussion
+I want to use two pointers. Left pointer start from 0, and stop at the first number that equals to val. Right pointer start from nums.length - 1, and stop at the first number that does not equal to val. Then swap these two numbers. Keep moving left pointer and right pointer until left equals to right. Then the most left number in the array that equals to val is at the left pointer. Then return left, which is the numbers of number that does not equal to 0. 
+
+There is a corner case. If there is no number equal to val. Then left pointer is equal to nums.length - 1, which is not the result. To deel with the corner case, I should judge if nums[left] == val. If not, return left - 1, if true, return left.
+
+#### Solution
+```
+    public int removeElement(int[] nums, int val) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            while (left < right && nums[left] != val) {
+                left ++;
+            }
+            while (left < right && nums[right] == val) {
+                right --;
+            }
+            if (left < right) {
+                int temp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = temp;
+                left ++;
+            }
+        }
+        if (nums[left] == val) {
+            return left;
+        }
+        return left + 1;
+    }
+```
+
